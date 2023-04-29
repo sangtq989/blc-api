@@ -7,7 +7,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests -Djar.finalName=bc-api-dev.jar
 
 # Run stage
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/bc-api-dev.jar .
 EXPOSE 8080
