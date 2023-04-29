@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${SQL_HOST:localhost}:${SQL_PORT:5433}/postgres
-    username: ${SQL_USER:postgreusername}
-    password: ${SQL_PASS:verysecured}
+    url: ${SQL_URL:jdbc:postgresql://localhost:5433/postgres}
+    username: ${SQL_USER:postgres}
+    password: ${SQL_PASS:postgres}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
