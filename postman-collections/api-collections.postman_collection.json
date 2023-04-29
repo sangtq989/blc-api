@@ -1,0 +1,429 @@
+{
+	"info": {
+		"_postman_id": "e10dc064-cadb-4ba4-93b6-6fdcbd7f48b8",
+		"name": "BlockC-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7847499"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/me/test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/me/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"me",
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Profile Certificate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"degree\": \"string\",\r\n    \"description\": \"string\",\r\n    \"endTime\": \"2023-04-26\",\r\n    \"gpa\": \"string\",\r\n    \"major\": \"string\",\r\n    \"startTime\": \"2023-04-26\",\r\n    \"type\": \"CERT_EDU\",\r\n    \"uniName\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/me/profile/certificate",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"me",
+						"profile",
+						"certificate"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CERT_LICENSES",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"CERT_LICENSES\",\r\n    \"licensesName\": \"String\",\r\n    \"publisher\": \"String\",\r\n    \"publishFrom\": \"2023-04-20\",\r\n    \"publishTo\": \"2023-04-29\",\r\n    \"licensesCode\": \"String\",\r\n    \"licensesUrl\": \"String\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/me/profile/certificate",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me",
+								"profile",
+								"certificate"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "CERT_COURSE",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"CERT_COURSE\",\r\n    \"courseName\": \"String\",\r\n    \"courseProvider\": \"String\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/me/profile/certificate",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me",
+								"profile",
+								"certificate"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "CERT_EDU",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"CERT_EDU\",\r\n    \"uniName\": \"string\",\r\n    \"degree\": \"string\",\r\n    \"major\": \"string\",\r\n    \"endTime\": \"2023-04-26\",\r\n    \"startTime\": \"2023-04-26\",\r\n    \"gpa\": \"string\",\r\n    \"description\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/me/profile/certificate",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me",
+								"profile",
+								"certificate"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "CERT_AWARD",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"CERT_AWARD\",\r\n    \"awardName\": \"string\",\r\n    \"awardOrg\": \"string\",\r\n    \"publishDate\": \"2023-04-26\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/me/profile/certificate",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me",
+								"profile",
+								"certificate"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Add Profile Experience",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"companyAddress\": \"string\",\r\n    \"companyName\": \"string\",\r\n    \"currentJob\": true,\r\n    \"employeeType\": \"string\",\r\n    \"endDate\": \"2023-04-29\",\r\n    \"jobDesc\": \"string\",\r\n    \"positionName\": \"string\",\r\n    \"startDate\": \"2023-04-29\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/me/profile/experience",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"me",
+						"profile",
+						"experience"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "EXPERIENCE",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"companyAddress\": \"string\",\r\n    \"companyName\": \"string\",\r\n    \"currentJob\": true,\r\n    \"employeeType\": \"string\",\r\n    \"endDate\": \"2023-04-29\",\r\n    \"jobDesc\": \"string\",\r\n    \"positionName\": \"string\",\r\n    \"startDate\": \"2023-04-29\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/me/experience",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me",
+								"experience"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": [],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Add Profile Speciality",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"languages\": [\r\n        \"string\", \"meh\", \"ok\"\r\n    ],\r\n    \"skills\": [\r\n        \"string\", \"a\"\r\n    ],\r\n    \"specialities\": [\r\n        \"string\", \"z\"\r\n    ],\r\n    \"yearOfExp\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/me/profile/specialty",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"me",
+						"profile",
+						"specialty"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SPECIALTY",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"languages\": [\r\n        \"string\", \"meh\", \"ok\"\r\n    ],\r\n    \"skills\": [\r\n        \"string\", \"a\"\r\n    ],\r\n    \"specialities\": [\r\n        \"string\", \"z\"\r\n    ],\r\n    \"yearOfExp\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/me/profile/specialty",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"me",
+								"profile",
+								"specialty"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": [],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Extract the JWT token from the response body\r",
+							"let responseJson = pm.response.json();\r",
+							"let jwtToken = responseJson.data.jwt;\r",
+							"\r",
+							"// Set the JWT token as an environment variable\r",
+							"pm.environment.set(\"auth_token\", jwtToken);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"admin@gmail.com\",\r\n  \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/login",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n//   \"blockChainAddress\": \"string\",\r\n  \"email\": \"admin@gmail.com\",\r\n  \"firstName\": \"Admin\",\r\n  \"lastName\": \"Super\",\r\n  \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/signup",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ExpertDashboard",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experts",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experts"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{auth_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "auth_token",
+			"value": "a"
+		}
+	]
+}
