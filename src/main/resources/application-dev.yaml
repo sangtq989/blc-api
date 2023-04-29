@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${SQL_HOST:localhost}:${SQL_PORT:5433}/postgres
+    username: ${SQL_USER:postgreusername}
+    password: ${SQL_PASS:verysecured}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: ${DLL_AUTO:update}
+
+jwt:
+  secret.key: ${JWT_SECRET:veryserioussecuredprivatekey}veryserioussecuredprivatekey
+  exp: ${JWT_EXP_TIME:6000}
