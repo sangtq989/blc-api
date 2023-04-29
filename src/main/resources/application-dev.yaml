@@ -9,5 +9,5 @@ spring:
       ddl-auto: ${DLL_AUTO:update}
 
 jwt:
-  secret.key: ${JWT_SECRET:veryserioussecuredprivatekey}veryserioussecuredprivatekey
+  secret.key: ${JWT_SECRET:veryserioussecuredprivatekey}
   exp: ${JWT_EXP_TIME:6000}
