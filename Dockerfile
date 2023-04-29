@@ -9,6 +9,6 @@ RUN mvn clean package -DskipTests -Djar.finalName=bc-api-dev.jar
 # Run stage
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=build /app/target/bc-api-dev.jar .
+COPY --from=build /app/target/*.jar bc-api-dev.jar
 EXPOSE 8080
 CMD ["java", "-jar", "-Dspring.profiles.active=dev", "/app/bc-api-dev.jar"]
