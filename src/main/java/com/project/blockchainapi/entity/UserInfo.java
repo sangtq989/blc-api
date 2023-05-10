@@ -3,6 +3,7 @@ package com.project.blockchainapi.entity;
 import com.project.blockchainapi.constant.Gender;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.CascadeType;
@@ -39,10 +40,12 @@ public class UserInfo implements UserDetails {
     private String phoneNumber;
     private String personalDescription;
     private String address;
+    private String role = "USER";
+    private boolean isEnable = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Collections.singleton(new SimpleGrantedAuthority(this.role));
     }
 
     @Override
@@ -72,7 +75,7 @@ public class UserInfo implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnable;
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

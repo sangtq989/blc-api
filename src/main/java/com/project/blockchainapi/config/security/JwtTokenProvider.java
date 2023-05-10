@@ -36,6 +36,14 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
+    public String generateJwtToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + expirationTime * 1000))
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+    }
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();

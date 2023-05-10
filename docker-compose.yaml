@@ -9,6 +9,11 @@ services:
       SQL_USER: myuser
       SQL_PASS: mypassword
       JWT_SECRET: veryserioussecuredprivatekey
+      MAIL_HOST: sandbox.smtp.mailtrap.io
+      MAIL_PORT: 2525
+      MAIL_USER: fb1361879d939e
+      MAIL_PASS: 47983df0d82709
+      APP_URL: http://localhost:8080
     depends_on:
       - db
   db:

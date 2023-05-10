@@ -17,9 +17,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -54,9 +56,11 @@ public class AuthenticationController {
                         .data(UserDetailResponse.builder()
                                 .jwt(jwt)
                                 .email(userDetails.getEmail())
+                                .role(userDetails.getRole())
+                                .walletAddress(userDetails.getBlockChainAddress())
                                 .build())
                         .build()
-                );
+        );
     }
 
     @PostMapping("/signup")
@@ -65,7 +69,7 @@ public class AuthenticationController {
         if (userInfoService.isUserExist(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body( MessageResponse.builder()
+                    .body(MessageResponse.builder()
                             .internalStatus(Constant.EXISTED)
                             .internalMessage("Error: Email is already taken!")
                             .build());
@@ -77,11 +81,22 @@ public class AuthenticationController {
         user.setPassword(encoder.encode(signUpRequest.getPassword()));
         user.setFirstName(signUpRequest.getFirstName());
         user.setLastName(signUpRequest.getLastName());
+        user.setRole(signUpRequest.getRole());
         userInfoService.saveUser(user);
+        userInfoService.sendMail(signUpRequest.getEmail());
         return ResponseEntity.ok(
                 MessageResponse.builder()
                         .internalStatus(Constant.SUCCESS)
-                        .internalMessage("User signup successful, please login")
-                .build());
+                        .internalMessage("User signup successful, please verify in email")
+                        .build());
+    }
+
+    @GetMapping("/verify")
+    public String registerUser(@RequestParam("token") String token) {
+        if(jwtTokenProvider.validateJwtToken(token)){
+            userInfoService.enableUser(jwtTokenProvider.getUserNameFromJwtToken(token));
+            return "Account verify success, you can close this tab";
+        }
+        return "Account verify failed";
     }
 }

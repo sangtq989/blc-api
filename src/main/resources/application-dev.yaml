@@ -7,7 +7,16 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: ${DLL_AUTO:update}
+  mail:
+    host: ${MAIL_HOST:sandbox.smtp.mailtrap.io}
+    port: ${MAIL_PORT:2525}
+    username: ${MAIL_USER:fb1361879d939e}
+    password: ${MAIL_PASS:47983df0d82709}
 
 jwt:
   secret.key: ${JWT_SECRET:veryserioussecuredprivatekey}
   exp: ${JWT_EXP_TIME:6000}
+
+blockchain-app:
+  url: ${APP_URL:http://localhost:8080}
+

@@ -7,5 +7,7 @@ import lombok.Data;
 @Builder
 public class UserDetailResponse {
     private String email;
+    private String role;
+    private String walletAddress;
     private String jwt;
 }
