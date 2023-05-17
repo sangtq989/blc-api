@@ -46,7 +46,7 @@ public class UserController {
         Map data = userInfoService.getUserProfileMetadata(SecurityUtils.currentLogin().getEmail());
         return ResponseEntity.ok(MessageResponse.builder()
                 .internalMessage(Constant.SUCCESS)
-                .internalMessage("Profile updated successfully")
+                .internalMessage("Profile retrieve successfully")
                 .data(data)
                 .build());
     }
