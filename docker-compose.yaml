@@ -16,6 +16,10 @@ services:
       MAIL_USER: fb1361879d939e
       MAIL_PASS: 47983df0d82709
       APP_URL: http://localhost:8080
+#      FRONT_END: http://localhost:4000
+#      MINIO_URL: http://localhost:9001
+#      MINIO_ACCESS_KEY: admin
+#      MINIO_SECRET_KEY: 1e3q2wadSzxc
     depends_on:
       - db
   db:
