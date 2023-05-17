@@ -1,6 +1,7 @@
 package com.project.blockchainapi.exception;
 
 import com.project.blockchainapi.response.MessageResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.validation.ConstraintViolationException;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.project.blockchainapi.constant.Constant.SERVER_ERROR;
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
@@ -55,5 +58,24 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 .data(errors)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InternalServerException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(InternalServerException ex) {
+
+        MessageResponse response = MessageResponse.builder()
+                .internalStatus(SERVER_ERROR)
+                .internalMessage(ex.getMessage())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(ExpiredJwtException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(ExpiredJwtException ex) {
+
+        MessageResponse response = MessageResponse.builder()
+                .internalStatus("JWT_EXPIRED")
+                .internalMessage(ex.getMessage())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 }

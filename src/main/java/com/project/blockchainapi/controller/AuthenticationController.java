@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @Slf4j
@@ -64,7 +65,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody UserRegisterRequest signUpRequest) {
+    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody UserRegisterRequest signUpRequest) throws MessagingException {
 
         if (userInfoService.isUserExist(signUpRequest.getEmail())) {
             return ResponseEntity
@@ -76,14 +77,9 @@ public class AuthenticationController {
         }
 
         // Create new user's account
-        UserInfo user = new UserInfo();
-        user.setEmail(signUpRequest.getEmail());
-        user.setPassword(encoder.encode(signUpRequest.getPassword()));
-        user.setFirstName(signUpRequest.getFirstName());
-        user.setLastName(signUpRequest.getLastName());
-        user.setRole(signUpRequest.getRole());
-        userInfoService.saveUser(user);
-        userInfoService.sendMail(signUpRequest.getEmail());
+        signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword()));
+        userInfoService.signUp(signUpRequest);
+
         return ResponseEntity.ok(
                 MessageResponse.builder()
                         .internalStatus(Constant.SUCCESS)
@@ -97,6 +93,7 @@ public class AuthenticationController {
             userInfoService.enableUser(jwtTokenProvider.getUserNameFromJwtToken(token));
             return "Account verify success, you can close this tab";
         }
+
         return "Account verify failed";
     }
 }

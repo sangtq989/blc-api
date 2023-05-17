@@ -10,7 +10,10 @@ import java.util.Optional;
 
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
+
     Optional<UserInfo> findUserInfoByEmail(String email);
+
+    @Query("select count(*) > 0 from UserInfo u where u.email = :email and u.isEnable = true")
     boolean existsByEmail(String email);
 
     @Query("select u from UserInfo u")

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -14,10 +16,12 @@ import java.time.LocalDate;
 @Builder
 public class UserProfileUpdateRequest {
     private String blockChainAddress;
+    private MultipartFile avatar;
     private String firstName;
     private String lastName;
     private Gender gender;
     private String phoneNumber;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
     private String address;
     private String description;

@@ -80,7 +80,25 @@
    <groupId>org.postgresql</groupId>
    <artifactId>postgresql</artifactId>
   </dependency>
-
+  <dependency>
+   <groupId>org.thymeleaf</groupId>
+   <artifactId>thymeleaf-spring5</artifactId>
+  </dependency>
+  <dependency>
+   <groupId>nz.net.ultraq.thymeleaf</groupId>
+   <artifactId>thymeleaf-layout-dialect</artifactId>
+  </dependency>
+  <dependency>
+   <groupId>io.minio</groupId>
+   <artifactId>minio</artifactId>
+   <version>8.2.1</version>
+  </dependency>
+  <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+  <dependency>
+   <groupId>commons-io</groupId>
+   <artifactId>commons-io</artifactId>
+   <version>2.11.0</version>
+  </dependency>
  </dependencies>
 
  <build>
