@@ -12,10 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -41,7 +38,12 @@ public class MetadataMapper {
         for (Field field : clazz.getDeclaredFields()) {
             String getterMethodName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
             var dtoFieldValue = clazz.getDeclaredMethod(getterMethodName).invoke(dto);
-            formMetadata.add(new Metadata("", objectId, dtoFieldValue.toString(), form.getFormKey(), field.getName(), SecurityUtils.currentLogin()));
+            formMetadata.add(new Metadata("",
+                    objectId,
+                    Objects.isNull(dtoFieldValue) ? "" : dtoFieldValue.toString(),
+                    form.getFormKey(),
+                    field.getName(),
+                    SecurityUtils.currentLogin()));
         }
 
         return formMetadata;

@@ -8,6 +8,7 @@ import com.project.blockchainapi.exception.InternalServerException;
 import com.project.blockchainapi.repo.MetadataRepository;
 import com.project.blockchainapi.repo.UserInfoRepository;
 import com.project.blockchainapi.request.user.UserRegisterRequest;
+import com.project.blockchainapi.response.user.UserProfileSummaryResponse;
 import com.project.blockchainapi.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -98,6 +100,24 @@ public class UserInfoServiceImpl implements UserInfoService {
                                 )
                         )
                 );
+    }
+
+    @Override
+    public UserProfileSummaryResponse userProfileSummary(UserInfo user) {
+        List<Metadata> latestJob = metadataRepository.getMetadataForSummaryProfile(user.getEmail()).orElse(new ArrayList<>());
+        List<Metadata> latestSpecialty = metadataRepository.getMetadataForSummaryProfileSpecialty(user.getId()).orElse(new ArrayList<>());
+        latestJob.addAll(latestSpecialty);
+        var latestJobMap = latestJob.stream()
+                .collect(Collectors.toMap(Metadata::getFormFieldKey, Metadata::getFieldValue));
+        return UserProfileSummaryResponse.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .jobTitle(latestJobMap.get("positionName"))
+                .companyName(latestJobMap.get("companyName"))
+                .location(latestJobMap.get("companyAddress"))
+                .skill(latestJobMap.get("skills"))
+                .yearOfExp(latestJobMap.get("yearOfExp"))
+                .build();
     }
 
     @Override

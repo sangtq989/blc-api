@@ -10,6 +10,7 @@ import com.project.blockchainapi.request.form.ExperienceFormRequest;
 import com.project.blockchainapi.request.form.SpecialityFormRequest;
 import com.project.blockchainapi.request.user.UserProfileUpdateRequest;
 import com.project.blockchainapi.response.MessageResponse;
+import com.project.blockchainapi.response.user.UserProfileSummaryResponse;
 import com.project.blockchainapi.service.FileUploadService;
 import com.project.blockchainapi.service.UserInfoService;
 import com.project.blockchainapi.util.mapper.MetadataMapper;
@@ -43,11 +44,15 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<MessageResponse> getUserProfile() {
-        Map data = userInfoService.getUserProfileMetadata(SecurityUtils.currentLogin().getEmail());
+        UserInfo userInfo = SecurityUtils.currentLogin();
+        Map metadata = userInfoService.getUserProfileMetadata(userInfo.getEmail());
+        UserProfileSummaryResponse profileDetailResponse = userInfoService.userProfileSummary(userInfo);
         return ResponseEntity.ok(MessageResponse.builder()
                 .internalMessage(Constant.SUCCESS)
                 .internalMessage("Profile retrieve successfully")
-                .data(data)
+                .data(Map.of(
+                        "userInfo", profileDetailResponse,
+                        "metadata", metadata))
                 .build());
     }
 
