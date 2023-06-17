@@ -125,6 +125,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         var latestJobMap = latestJob.stream()
                 .collect(Collectors.toMap(Metadata::getFormFieldKey, Metadata::getFieldValue));
         return UserProfileSummaryResponse.builder()
+                .dateOfBirth(user.getDateOfBirth().toString())
+                .phone(user.getPhoneNumber())
+                .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .jobTitle(latestJobMap.get("positionName"))

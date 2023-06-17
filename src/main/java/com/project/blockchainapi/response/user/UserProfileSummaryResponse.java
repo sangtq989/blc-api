@@ -15,4 +15,7 @@ public class UserProfileSummaryResponse {
     private String companyName;
     private List<String> skill;
     private String location;
+    private String phone;
+    private String email;
+    private String dateOfBirth;
 }
