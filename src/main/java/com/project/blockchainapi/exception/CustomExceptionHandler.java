@@ -69,6 +69,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
     @ExceptionHandler(ExpiredJwtException.class)
     protected ResponseEntity<Object> handleConstraintViolation(ExpiredJwtException ex) {
 
@@ -77,5 +78,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 .internalMessage(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ClientRequestException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(ClientRequestException ex) {
+        MessageResponse response = MessageResponse.builder()
+                .internalStatus("BAD_REQUEST")
+                .internalMessage(ex.getMessage())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

@@ -5,6 +5,7 @@ import com.project.blockchainapi.constant.Constant;
 import com.project.blockchainapi.constant.FormType;
 import com.project.blockchainapi.entity.Metadata;
 import com.project.blockchainapi.entity.UserInfo;
+import com.project.blockchainapi.exception.ClientRequestException;
 import com.project.blockchainapi.exception.InternalServerException;
 import com.project.blockchainapi.repo.MetadataRepository;
 import com.project.blockchainapi.repo.UserInfoRepository;
@@ -116,7 +117,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserProfileSummaryResponse userProfileSummary(String email) {
-        UserInfo user = userInfoRepository.findUserInfoByEmail(email).orElseThrow();
+        UserInfo user = userInfoRepository.findUserInfoByEmail(email)
+                .orElseThrow(() -> new ClientRequestException("User " + email + " not found"));
         List<Metadata> latestJob = metadataRepository.getMetadataForSummaryProfile(user.getEmail()).orElse(new ArrayList<>());
         List<Metadata> latestSpecialty = metadataRepository.getMetadataForSummaryProfileSpecialty(user.getId()).orElse(new ArrayList<>());
         latestJob.addAll(latestSpecialty);
