@@ -1,8 +1,10 @@
 package com.project.blockchainapi.response.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -17,5 +19,6 @@ public class UserProfileSummaryResponse {
     private String location;
     private String phone;
     private String email;
-    private String dateOfBirth;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfBirth;
 }
