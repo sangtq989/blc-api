@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExperienceFormRequest implements BaseFormRequest{
+public class ExperienceFormRequest implements BaseFormRequest {
     @NotBlank
     private String positionName;
     @NotBlank
@@ -24,7 +25,9 @@ public class ExperienceFormRequest implements BaseFormRequest{
     private String companyAddress;
     private Boolean isCurrentJob;
     @NotNull
-    private LocalDate startDate;
+    @Pattern(regexp = "\\d{4}-\\d{2}", message = "Date must be in yyyy-MM format")
+    private String startDate;
+    @NotNull
     private LocalDate endDate;
     private String jobDesc;
 

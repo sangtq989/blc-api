@@ -2,15 +2,11 @@ package com.project.blockchainapi.request.form.cert;
 
 import com.project.blockchainapi.constant.FormType;
 import com.project.blockchainapi.request.form.CertificateFormRequest;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import javax.validation.constraints.Pattern;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -22,9 +18,11 @@ public class CertLicensesFormRequest extends CertificateFormRequest {
     @NotBlank
     private String publisher;
     @NotNull
-    private LocalDate publishFrom;
+    @Pattern(regexp = "\\d{4}-\\d{2}", message = "Date must be in yyyy-MM format")
+    private String publishFrom;
     @NotNull
-    private LocalDate publishTo;
+    @Pattern(regexp = "\\d{4}-\\d{2}", message = "Date must be in yyyy-MM format")
+    private String publishTo;
     @NotBlank
     private String licensesCode;
     @NotBlank
