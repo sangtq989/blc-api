@@ -19,7 +19,7 @@ public interface UserInfoService extends UserDetailsService {
 
     Map<String, List<Map<String, Object>>> getUserProfileMetadata(String userEmail);
 
-    UserProfileSummaryResponse userProfileSummary(UserInfo user);
+    UserProfileSummaryResponse userProfileSummary(String email);
 
     void signUp(UserRegisterRequest signUpRequest);
 }

@@ -115,7 +115,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public UserProfileSummaryResponse userProfileSummary(UserInfo user) {
+    public UserProfileSummaryResponse userProfileSummary(String email) {
+        UserInfo user = userInfoRepository.findUserInfoByEmail(email).orElseThrow();
         List<Metadata> latestJob = metadataRepository.getMetadataForSummaryProfile(user.getEmail()).orElse(new ArrayList<>());
         List<Metadata> latestSpecialty = metadataRepository.getMetadataForSummaryProfileSpecialty(user.getId()).orElse(new ArrayList<>());
         latestJob.addAll(latestSpecialty);

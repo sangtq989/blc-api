@@ -41,9 +41,9 @@ public class UserController {
     public ResponseEntity<MessageResponse> getUserProfile() {
         UserInfo userInfo = SecurityUtils.currentLogin();
         var metadata = userInfoService.getUserProfileMetadata(userInfo.getEmail());
-        UserProfileSummaryResponse profileDetailResponse = userInfoService.userProfileSummary(userInfo);
+        UserProfileSummaryResponse profileDetailResponse = userInfoService.userProfileSummary(userInfo.getEmail());
         return ResponseEntity.ok(MessageResponse.builder()
-                .internalMessage(Constant.SUCCESS)
+                .internalStatus(Constant.SUCCESS)
                 .internalMessage("Profile retrieve successfully")
                 .data(Map.of(
                         "userInfo", profileDetailResponse,
@@ -67,7 +67,7 @@ public class UserController {
         userInfoService.saveUser(userInfo);
 
         return ResponseEntity.ok(MessageResponse.builder()
-                .internalMessage(Constant.SUCCESS)
+                .internalStatus(Constant.SUCCESS)
                 .internalMessage("Profile updated successfully")
                 .build());
     }

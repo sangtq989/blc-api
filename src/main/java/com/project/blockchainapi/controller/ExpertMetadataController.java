@@ -4,19 +4,17 @@ package com.project.blockchainapi.controller;
 import com.project.blockchainapi.constant.Constant;
 import com.project.blockchainapi.request.expert.ExpertDashboardSearchRequest;
 import com.project.blockchainapi.response.MessageResponse;
-import com.project.blockchainapi.response.expert.ExpertMetadataResponse;
+import com.project.blockchainapi.response.user.UserProfileSummaryResponse;
 import com.project.blockchainapi.service.ExpertService;
+import com.project.blockchainapi.service.UserInfoService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -27,6 +25,7 @@ import java.util.List;
 public class ExpertMetadataController {
 
     private final ExpertService expertService;
+    private final UserInfoService userInfoService;
 
     @GetMapping("")
     public ResponseEntity<MessageResponse> getUserMetadataByAddress(@RequestParam(required = false) List<String> speciality,
@@ -38,14 +37,22 @@ public class ExpertMetadataController {
                         .internalStatus(Constant.SUCCESS)
                         .internalMessage("Get experts success")
                         .data(expertService.expertDashBoard(
-                                        new ExpertDashboardSearchRequest(speciality, certs, expYears, location)))
+                                new ExpertDashboardSearchRequest(speciality, certs, expYears, location)))
                         .build()
-                );
+        );
     }
 
-    @GetMapping("/{address}")
-    public ResponseEntity<ExpertMetadataResponse> getExpertMetadataByAddress(@PathVariable String address) {
-        return ResponseEntity.ok(ExpertMetadataResponse.builder().build());
+    @GetMapping("/{email}")
+    public ResponseEntity<MessageResponse> getUserProfile(@PathVariable String email) {
+        var metadata = userInfoService.getUserProfileMetadata(email);
+        UserProfileSummaryResponse profileDetailResponse = userInfoService.userProfileSummary(email);
+        return ResponseEntity.ok(MessageResponse.builder()
+                .internalStatus(Constant.SUCCESS)
+                .internalMessage("Profile retrieve successfully")
+                .data(Map.of(
+                        "userInfo", profileDetailResponse,
+                        "metadata", metadata))
+                .build());
     }
 
 
