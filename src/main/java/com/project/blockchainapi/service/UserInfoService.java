@@ -6,6 +6,7 @@ import com.project.blockchainapi.response.user.UserProfileSummaryResponse;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.mail.MessagingException;
+import java.util.List;
 import java.util.Map;
 
 public interface UserInfoService extends UserDetailsService {
@@ -16,7 +17,8 @@ public interface UserInfoService extends UserDetailsService {
 
     void enableUser(String email);
 
-    Map getUserProfileMetadata(String userEmail);
+    Map<String, List<Map<String, Object>>> getUserProfileMetadata(String userEmail);
+
     UserProfileSummaryResponse userProfileSummary(UserInfo user);
 
     void signUp(UserRegisterRequest signUpRequest);

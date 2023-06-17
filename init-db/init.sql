@@ -75,16 +75,16 @@ VALUES (6, NULL, 'CERT_AWARD', 'Honors & Awards', 'Chứng chỉ, bằng cấp')
 
 INSERT INTO public.form_field
     (id, field_data_type, field_desc, field_title, form_field_key, form_id)
-VALUES (1, 'String', NULL, 'Chuyên môn', 'specialities', 1);
+VALUES (1, 'List', NULL, 'Chuyên môn', 'specialities', 1);
 INSERT INTO public.form_field
     (id, field_data_type, field_desc, field_title, form_field_key, form_id)
 VALUES (2, 'Integer', NULL, 'Năm kinh nghiệm', 'yearOfExp', 1);
 INSERT INTO public.form_field
     (id, field_data_type, field_desc, field_title, form_field_key, form_id)
-VALUES (3, 'String', NULL, 'Kỹ năng', 'skills', 1);
+VALUES (3, 'List', NULL, 'Kỹ năng', 'skills', 1);
 INSERT INTO public.form_field
     (id, field_data_type, field_desc, field_title, form_field_key, form_id)
-VALUES (4, 'String', NULL, 'Ngôn ngữ', 'languages', 1);
+VALUES (4, 'List', NULL, 'Ngôn ngữ', 'languages', 1);
 INSERT INTO public.form_field
     (id, field_data_type, field_desc, field_title, form_field_key, form_id)
 VALUES (5, 'String', NULL, 'Vị trí', 'positionName', 2);

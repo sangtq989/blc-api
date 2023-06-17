@@ -18,12 +18,7 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
@@ -45,7 +40,7 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity<MessageResponse> getUserProfile() {
         UserInfo userInfo = SecurityUtils.currentLogin();
-        Map metadata = userInfoService.getUserProfileMetadata(userInfo.getEmail());
+        var metadata = userInfoService.getUserProfileMetadata(userInfo.getEmail());
         UserProfileSummaryResponse profileDetailResponse = userInfoService.userProfileSummary(userInfo);
         return ResponseEntity.ok(MessageResponse.builder()
                 .internalMessage(Constant.SUCCESS)
@@ -78,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping("profile/specialty")
-    public ResponseEntity<MessageResponse> addSpecialty(@RequestBody SpecialityFormRequest request) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public ResponseEntity<MessageResponse> addSpecialty(@RequestBody @Valid SpecialityFormRequest request) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         List<Metadata> entityList = metadataMapper.mapToEntity(request);
         metadataRepository.saveAll(entityList);
         return ResponseEntity.ok(
@@ -90,7 +85,7 @@ public class UserController {
     }
 
     @PostMapping("profile/experience")
-    public ResponseEntity<MessageResponse> addExperience(@RequestBody ExperienceFormRequest request) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public ResponseEntity<MessageResponse> addExperience(@RequestBody @Valid ExperienceFormRequest request) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
 
         List<Metadata> entityList = metadataMapper.mapToEntity(request);
         metadataRepository.saveAll(entityList);
@@ -101,7 +96,7 @@ public class UserController {
     }
 
     @PostMapping("profile/certificate")
-    public ResponseEntity<MessageResponse> addCertificate(@RequestBody CertificateFormRequest request) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public ResponseEntity<MessageResponse> addCertificate(@RequestBody @Valid CertificateFormRequest request) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
 
         List<Metadata> entityList = metadataMapper.mapToEntity(request);
         metadataRepository.saveAll(entityList);

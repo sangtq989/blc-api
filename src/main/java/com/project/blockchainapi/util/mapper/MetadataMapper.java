@@ -12,7 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -28,17 +31,12 @@ public class MetadataMapper {
         UUID objectId = UUID.randomUUID();
         Form form = formRepository.getFormByFormKey(dto.getFormType()).orElseThrow();
         // performance improve since don't need to query the config each loop
-        var data = formFieldRepository.getFormFieldKeyToMap(dto.getFormType());
-        var combinedMap = new HashMap<>();
-        for (var map : data) {
-            combinedMap.put(map.get("0"), map.get("1"));
-        }
         Class<?> clazz = dto.getClass();
-
         for (Field field : clazz.getDeclaredFields()) {
             String getterMethodName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
             var dtoFieldValue = clazz.getDeclaredMethod(getterMethodName).invoke(dto);
-            formMetadata.add(new Metadata("",
+            formMetadata.add(new Metadata(
+                    SecurityUtils.currentLogin().getBlockChainAddress(),
                     objectId,
                     Objects.isNull(dtoFieldValue) ? "" : dtoFieldValue.toString(),
                     form.getFormKey(),
@@ -48,4 +46,6 @@ public class MetadataMapper {
 
         return formMetadata;
     }
+
+
 }

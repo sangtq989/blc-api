@@ -22,7 +22,9 @@ public class SpecialityFormRequest implements BaseFormRequest{
 
     @NotNull
     private Integer yearOfExp;
+    @NotNull
     private List<String> skills;
+    @NotNull
     private List<String> languages;
 
     @Override

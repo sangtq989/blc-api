@@ -2,7 +2,6 @@ package com.project.blockchainapi.repo;
 
 import com.project.blockchainapi.constant.FormType;
 import com.project.blockchainapi.entity.FormField;
-import com.project.blockchainapi.entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

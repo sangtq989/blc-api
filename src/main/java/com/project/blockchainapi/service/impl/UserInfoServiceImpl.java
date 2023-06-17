@@ -2,11 +2,13 @@ package com.project.blockchainapi.service.impl;
 
 import com.project.blockchainapi.config.security.JwtTokenProvider;
 import com.project.blockchainapi.constant.Constant;
+import com.project.blockchainapi.constant.FormType;
 import com.project.blockchainapi.entity.Metadata;
 import com.project.blockchainapi.entity.UserInfo;
 import com.project.blockchainapi.exception.InternalServerException;
 import com.project.blockchainapi.repo.MetadataRepository;
 import com.project.blockchainapi.repo.UserInfoRepository;
+import com.project.blockchainapi.repo.projection.MetadataProjection;
 import com.project.blockchainapi.request.user.UserRegisterRequest;
 import com.project.blockchainapi.response.user.UserProfileSummaryResponse;
 import com.project.blockchainapi.service.UserInfoService;
@@ -23,9 +25,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,17 +89,29 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public Map getUserProfileMetadata(String userEmail) {
-        List<Metadata> metadata = metadataRepository.getMetadataByUserId(userEmail);
+    public Map<String, List<Map<String, Object>>> getUserProfileMetadata(String userEmail) {
+        var userForms = metadataRepository.getFormKeyByUserId(userEmail).orElse(new ArrayList<>());
+        Map<String, List<Map<String, Object>>> result = new HashMap<>();
+        for (String formKey : userForms) {
+            var formObjectIds = metadataRepository.getMetadataByUserIdAndFormKey(userEmail, FormType.valueOf(formKey)).orElse(new ArrayList<>());
+            List<Map<String, Object>> listObjectsOfForm = new ArrayList<>();
+            for (String formObjectId : formObjectIds) {
+                var resultItem = metadataRepository.getMetadataByObjectsId(userEmail, UUID.fromString(formObjectId))
+                        .orElse(new ArrayList<>())
+                        .stream()
+                        .collect(Collectors.toMap(MetadataProjection::getFormFieldKey, metadata ->
+                                "List".equals(metadata.getFieldDataType())
+                                        ? Arrays.asList(metadata.getFieldValue()
+                                        .trim()
+                                        .substring(1, metadata.getFieldValue().length() - 1)
+                                        .split(", "))
+                                        : metadata.getFieldValue()));
+                listObjectsOfForm.add(resultItem);
+            }
+            result.put(formKey, listObjectsOfForm);
+        }
 
-        return metadata.stream()
-                .collect(
-                        Collectors.groupingBy(Metadata::getFormKey,
-                                Collectors.groupingBy(item -> item.getObjectId().toString(),
-                                        Collectors.toMap(Metadata::getFormFieldKey, Metadata::getFieldValue)
-                                )
-                        )
-                );
+        return result;
     }
 
     @Override
@@ -115,7 +127,10 @@ public class UserInfoServiceImpl implements UserInfoService {
                 .jobTitle(latestJobMap.get("positionName"))
                 .companyName(latestJobMap.get("companyName"))
                 .location(latestJobMap.get("companyAddress"))
-                .skill(latestJobMap.get("skills"))
+                .skill(Arrays.asList(latestJobMap.get("skills")
+                        .trim()
+                        .substring(1, latestJobMap.get("skills").length() - 1)
+                        .split(", ")))
                 .yearOfExp(latestJobMap.get("yearOfExp"))
                 .build();
     }

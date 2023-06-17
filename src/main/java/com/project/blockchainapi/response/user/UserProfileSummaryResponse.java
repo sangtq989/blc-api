@@ -3,6 +3,8 @@ package com.project.blockchainapi.response.user;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class UserProfileSummaryResponse {
@@ -11,6 +13,6 @@ public class UserProfileSummaryResponse {
     private String jobTitle;
     private String yearOfExp;
     private String companyName;
-    private String skill;
+    private List<String> skill;
     private String location;
 }
