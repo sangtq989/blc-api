@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
 
 @Data
 @Builder
@@ -28,7 +27,7 @@ public class ExperienceFormRequest implements BaseFormRequest {
     @Pattern(regexp = "\\d{4}-\\d{2}", message = "Date must be in yyyy-MM format")
     private String startDate;
     @NotNull
-    private LocalDate endDate;
+    private String endDate;
     private String jobDesc;
 
     @Override
