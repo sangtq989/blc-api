@@ -51,6 +51,19 @@ public class UserController {
                 .build());
     }
 
+
+    @PutMapping("/profile/wallet-address")
+    public ResponseEntity<MessageResponse> update(@RequestBody @Valid UserProfileUpdateRequest request) {
+        UserInfo userInfo = SecurityUtils.currentLogin();
+        userInfo.setBlockChainAddress(request.getBlockChainAddress());
+        userInfoService.saveUser(userInfo);
+
+        return ResponseEntity.ok(MessageResponse.builder()
+                .internalStatus(Constant.SUCCESS)
+                .internalMessage("Profile updated successfully")
+                .build());
+    }
+
     @PostMapping("/profile")
     public ResponseEntity<MessageResponse> updateProfile(@ModelAttribute @Valid UserProfileUpdateRequest request) throws Exception {
 

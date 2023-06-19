@@ -21,4 +21,5 @@ public class UserProfileSummaryResponse {
     private String email;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
+    private String walletAddress;
 }

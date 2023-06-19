@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExpertDashboardSearchRequest {
+    private String keyword = "";
     private List<String> speciality;
     private List<String> certs;
     private List<Integer> expYears;

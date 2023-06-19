@@ -13,6 +13,7 @@ import com.project.blockchainapi.repo.projection.MetadataProjection;
 import com.project.blockchainapi.request.user.UserRegisterRequest;
 import com.project.blockchainapi.response.user.UserProfileSummaryResponse;
 import com.project.blockchainapi.service.UserInfoService;
+import com.project.blockchainapi.util.mapper.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -102,10 +103,7 @@ public class UserInfoServiceImpl implements UserInfoService {
                         .stream()
                         .collect(Collectors.toMap(MetadataProjection::getFormFieldKey, metadata ->
                                 "List".equals(metadata.getFieldDataType())
-                                        ? Arrays.asList(metadata.getFieldValue()
-                                        .trim()
-                                        .substring(1, metadata.getFieldValue().length() - 1)
-                                        .split(", "))
+                                        ? CommonUtils.convertStringToList(metadata.getFieldValue())
                                         : metadata.getFieldValue()));
                 listObjectsOfForm.add(resultItem);
             }
@@ -130,13 +128,11 @@ public class UserInfoServiceImpl implements UserInfoService {
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .walletAddress(user.getBlockChainAddress())
                 .jobTitle(latestJobMap.get("positionName"))
                 .companyName(latestJobMap.get("companyName"))
                 .location(latestJobMap.get("companyAddress"))
-                .skill(Arrays.asList(latestJobMap.get("skills")
-                        .trim()
-                        .substring(1, latestJobMap.get("skills").length() - 1)
-                        .split(", ")))
+                .skill(CommonUtils.convertStringToList(latestJobMap.get("skills")))
                 .yearOfExp(latestJobMap.get("yearOfExp"))
                 .build();
     }

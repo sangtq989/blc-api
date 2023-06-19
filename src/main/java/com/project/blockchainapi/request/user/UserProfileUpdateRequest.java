@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Data
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class UserProfileUpdateRequest {
+    @NotEmpty
     private String blockChainAddress;
     private MultipartFile avatar;
     private String firstName;

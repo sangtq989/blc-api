@@ -29,15 +29,17 @@ public class ExpertMetadataController {
 
     @GetMapping("")
     public ResponseEntity<MessageResponse> getUserMetadataByAddress(@RequestParam(required = false) List<String> speciality,
-                                                                                 @RequestParam(required = false) List<String> certs,
-                                                                                 @RequestParam(required = false) List<Integer> expYears,
-                                                                                 @RequestParam(required = false) List<String> location) {
+                                                                    @RequestParam(required = false) List<String> certs,
+                                                                    @RequestParam(required = false) List<Integer> expYears,
+                                                                    @RequestParam(required = false) List<String> location,
+                                                                    @RequestParam(required = false) String keyword
+    ) {
         return ResponseEntity.ok(
                 MessageResponse.builder()
                         .internalStatus(Constant.SUCCESS)
                         .internalMessage("Get experts success")
                         .data(expertService.expertDashBoard(
-                                new ExpertDashboardSearchRequest(speciality, certs, expYears, location)))
+                                new ExpertDashboardSearchRequest(keyword, speciality, certs, expYears, location)))
                         .build()
         );
     }

@@ -13,7 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ExpertMetadataResponse {
 
+    private String email;
     private String fullName;
     private String blockAddress;
+    private String jobTitle;
     private List<String> tags;
 }
