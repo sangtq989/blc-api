@@ -15,4 +15,12 @@ public class CommonUtils {
                 .substring(1, value.length() - 1)
                 .split(", "));
     }
+
+    public static <T> T nullOrDefault(T request, T db) {
+        if (request == null && db == null) {
+            return null;
+        }
+
+        return Objects.requireNonNullElse(request, db);
+    }
 }
