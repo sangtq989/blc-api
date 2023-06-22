@@ -151,6 +151,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 //            response.setDescription(user.getDescription());
 
         } else {
+            response.setEmail(user.getEmail());
             response.setWalletAddress(user.getBlockChainAddress());
             response.setRole(user.getRole());
             response.setCompanyName(user.getCompanyName());
