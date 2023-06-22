@@ -117,27 +117,53 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserProfileSummaryResponse userProfileSummary(String email) {
         UserInfo user = userInfoRepository.findUserInfoByEmail(email)
                 .orElseThrow(() -> new ClientRequestException("User " + email + " not found"));
-        List<Metadata> latestJob = metadataRepository.getMetadataForSummaryProfile(user.getEmail()).orElse(new ArrayList<>());
-        List<Metadata> latestSpecialty = metadataRepository.getMetadataForSummaryProfileSpecialty(user.getId()).orElse(new ArrayList<>());
-        latestJob.addAll(latestSpecialty);
-        var latestJobMap = latestJob.stream()
-                .collect(Collectors.toMap(Metadata::getFormFieldKey, Metadata::getFieldValue));
-        return UserProfileSummaryResponse.builder()
-                .numberOfEmployee(3)
-                .link("http://templink.com")
-                .role(user.getRole())
-                .dateOfBirth(user.getDateOfBirth())
-                .phone(user.getPhoneNumber())
-                .email(user.getEmail())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .walletAddress(user.getBlockChainAddress())
-                .jobTitle(latestJobMap.get("positionName"))
-                .companyName(latestJobMap.get("companyName"))
-                .location(latestJobMap.get("companyAddress"))
-                .skill(CommonUtils.convertStringToList(latestJobMap.get("skills")))
-                .yearOfExp(latestJobMap.get("yearOfExp"))
-                .build();
+
+
+        UserProfileSummaryResponse response = new UserProfileSummaryResponse();
+
+        if ("USER".equals(user.getRole())) {
+            List<Metadata> latestJob = metadataRepository.getMetadataForSummaryProfile(user.getEmail()).orElse(new ArrayList<>());
+            List<Metadata> latestSpecialty = metadataRepository.getMetadataForSummaryProfileSpecialty(user.getId()).orElse(new ArrayList<>());
+            latestJob.addAll(latestSpecialty);
+            var latestJobMap = latestJob.stream()
+                    .collect(Collectors.toMap(Metadata::getFormFieldKey, Metadata::getFieldValue));
+
+            response.setWalletAddress(user.getBlockChainAddress());
+            response.setRole(user.getRole());
+            response.setFirstName(user.getFirstName());
+            response.setLastName(user.getLastName());
+            response.setGender(String.valueOf(user.getGender()));
+            response.setDateOfBirth(user.getDateOfBirth());
+            response.setPhone(user.getPhoneNumber());
+            response.setDescription(user.getDescription());
+
+            response.setEmail(user.getEmail());
+            response.setJobTitle(latestJobMap.get("positionName"));
+            response.setCompanyName(latestJobMap.get("companyName"));
+            response.setLocation(latestJobMap.get("companyAddress"));
+            response.setYearOfExp(latestJobMap.get("yearOfExp"));
+            response.setSkill(CommonUtils.convertStringToList(latestJobMap.get("skills")));
+
+
+//            response.setGender(String.valueOf(user.getGender()));
+//            response.setPhone(user.getPhoneNumber());
+//            response.setLocation(user.getAddress());
+//            response.setDescription(user.getDescription());
+
+        } else {
+            response.setWalletAddress(user.getBlockChainAddress());
+            response.setRole(user.getRole());
+            response.setCompanyName(user.getCompanyName());
+            response.setJobTitle(user.getJobTitle());
+            response.setTaxNumber(user.getTaxNumber());
+            response.setNumberOfEmployee(user.getNumberOfEmployee());
+            response.setPhone(user.getPhoneNumber());
+            response.setLocation(user.getAddress());
+            response.setLink(user.getLink());
+            response.setDescription(user.getDescription());
+        }
+
+        return response;
     }
 
     @Override

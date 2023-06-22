@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Data
@@ -15,15 +14,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class UserProfileUpdateRequest {
-    @NotEmpty
-    private String blockChainAddress;
-//    private MultipartFile avatar;
+    //    private MultipartFile avatar;
     private String firstName;
     private String lastName;
     private Gender gender;
-    private String phoneNumber;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
+
+    private String companyName;
+    private Integer numberOfEmployee;
+    private String taxNumber;
+    private String link;
+
+    private String phoneNumber;
     private String address;
+    private String jobTitle;
     private String description;
+
 }

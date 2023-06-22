@@ -9,6 +9,7 @@ import com.project.blockchainapi.request.form.CertificateFormRequest;
 import com.project.blockchainapi.request.form.ExperienceFormRequest;
 import com.project.blockchainapi.request.form.SpecialityFormRequest;
 import com.project.blockchainapi.request.user.UserProfileUpdateRequest;
+import com.project.blockchainapi.request.user.UserWalletAddressUpdateRequest;
 import com.project.blockchainapi.response.MessageResponse;
 import com.project.blockchainapi.response.user.UserProfileSummaryResponse;
 import com.project.blockchainapi.service.FileUploadService;
@@ -22,8 +23,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +43,7 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity<MessageResponse> getUserProfile() {
         UserInfo userInfo = SecurityUtils.currentLogin();
-        var metadata = userInfoService.getUserProfileMetadata(userInfo.getEmail());
+        var metadata = "USER".equals(userInfo.getRole()) ? userInfoService.getUserProfileMetadata(userInfo.getEmail()) : new HashMap<>();
         UserProfileSummaryResponse profileDetailResponse = userInfoService.userProfileSummary(userInfo.getEmail());
         return ResponseEntity.ok(MessageResponse.builder()
                 .internalStatus(Constant.SUCCESS)
@@ -53,7 +56,7 @@ public class UserController {
 
 
     @PutMapping("/profile/wallet-address")
-    public ResponseEntity<MessageResponse> update(@RequestBody @Valid UserProfileUpdateRequest request) {
+    public ResponseEntity<MessageResponse> update(@RequestBody @Valid UserWalletAddressUpdateRequest request) {
         UserInfo userInfo = SecurityUtils.currentLogin();
         userInfo.setBlockChainAddress(request.getBlockChainAddress());
         userInfoService.saveUser(userInfo);
@@ -67,21 +70,43 @@ public class UserController {
     @PostMapping("/profile")
     public ResponseEntity<MessageResponse> updateProfile(@RequestBody @Valid UserProfileUpdateRequest request) throws Exception {
 
-        UserInfo userInfo = SecurityUtils.currentLogin();
-        userInfo.setLastName(request.getLastName());
-        userInfo.setLastName(request.getLastName());
-        userInfo.setPhoneNumber(request.getPhoneNumber());
-        userInfo.setDateOfBirth(request.getDateOfBirth());
-        userInfo.setGender(request.getGender());
-        userInfo.setAddress(request.getAddress());
-        userInfo.setPersonalDescription(request.getDescription());
+        UserInfo user = SecurityUtils.currentLogin();
+        if ("USER".equals(user.getRole())) {
+            user.setFirstName(Objects.requireNonNullElse(request.getFirstName(), user.getFirstName()));
+            user.setLastName(Objects.requireNonNullElse(request.getLastName(), user.getLastName()));
+            user.setGender(Objects.requireNonNullElse(request.getGender(), user.getGender()));
+            user.setDateOfBirth(Objects.requireNonNullElse(request.getDateOfBirth(), user.getDateOfBirth()));
+            user.setPhoneNumber(Objects.requireNonNullElse(request.getPhoneNumber(), user.getPhoneNumber()));
+            user.setAddress(Objects.requireNonNullElse(request.getAddress(), user.getAddress()));
+            user.setDescription(Objects.requireNonNullElse(request.getDescription(), user.getDescription()));
+        } else {
+            user.setCompanyName(Objects.requireNonNullElse(request.getCompanyName(), user.getCompanyName()));
+            user.setTaxNumber(Objects.requireNonNullElse(request.getTaxNumber(), user.getTaxNumber()));
+            user.setJobTitle(Objects.requireNonNullElse(request.getJobTitle(), user.getJobTitle()));
+            user.setNumberOfEmployee(Objects.requireNonNullElse(request.getNumberOfEmployee(), user.getNumberOfEmployee()));
+            user.setPhoneNumber(Objects.requireNonNullElse(request.getPhoneNumber(), user.getPhoneNumber()));
+            user.setAddress(Objects.requireNonNullElse(request.getAddress(), user.getAddress()));
+            user.setLink(Objects.requireNonNullElse(request.getLink(), user.getLink()));
+            user.setDescription(Objects.requireNonNullElse(request.getDescription(), user.getDescription()));
+        }
 //        String fileLocation = fileUploadService.uploadFile(request.getAvatar(), SecurityUtils.currentLogin().getEmail());
 //        userInfo.setAvatar(fileLocation);
-        userInfoService.saveUser(userInfo);
+        userInfoService.saveUser(user);
 
         return ResponseEntity.ok(MessageResponse.builder()
                 .internalStatus(Constant.SUCCESS)
                 .internalMessage("Profile updated successfully")
+                .data(request)
+                .build());
+    }
+
+
+    @PostMapping("/test")
+    public ResponseEntity<MessageResponse> updateProfile() throws Exception {
+        return ResponseEntity.ok(MessageResponse.builder()
+                .internalStatus(Constant.SUCCESS)
+                .internalMessage("Profile updated successfully")
+                .data(new UserProfileUpdateRequest())
                 .build());
     }
 

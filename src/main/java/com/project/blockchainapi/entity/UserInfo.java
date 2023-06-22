@@ -6,16 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
@@ -40,9 +31,17 @@ public class UserInfo implements UserDetails {
     private LocalDate dateOfBirth;
     private String phoneNumber;
     private String personalDescription;
-    private String address;
     private String role = "USER";
     private boolean isEnable = false;
+
+    private String jobTitle;
+    private String yearOfExp;
+    private Integer numberOfEmployee;
+    private String link;
+    private String description;
+    private String companyName;
+    private String address;
+    private String taxNumber;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
