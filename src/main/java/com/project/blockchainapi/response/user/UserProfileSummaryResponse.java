@@ -14,6 +14,9 @@ public class UserProfileSummaryResponse {
     private String lastName;
     private String jobTitle;
     private String yearOfExp;
+    private Integer numberOfEmployee;
+    private String link;
+    private String description;
     private String companyName;
     private List<String> skill;
     private String location;
@@ -22,4 +25,5 @@ public class UserProfileSummaryResponse {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
     private String walletAddress;
+    private String role;
 }

@@ -123,6 +123,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         var latestJobMap = latestJob.stream()
                 .collect(Collectors.toMap(Metadata::getFormFieldKey, Metadata::getFieldValue));
         return UserProfileSummaryResponse.builder()
+                .numberOfEmployee(3)
+                .link("http://templink.com")
+                .role(user.getRole())
                 .dateOfBirth(user.getDateOfBirth())
                 .phone(user.getPhoneNumber())
                 .email(user.getEmail())

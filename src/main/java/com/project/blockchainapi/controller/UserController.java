@@ -65,7 +65,7 @@ public class UserController {
     }
 
     @PostMapping("/profile")
-    public ResponseEntity<MessageResponse> updateProfile(@ModelAttribute @Valid UserProfileUpdateRequest request) throws Exception {
+    public ResponseEntity<MessageResponse> updateProfile(@RequestBody @Valid UserProfileUpdateRequest request) throws Exception {
 
         UserInfo userInfo = SecurityUtils.currentLogin();
         userInfo.setLastName(request.getLastName());
@@ -75,8 +75,8 @@ public class UserController {
         userInfo.setGender(request.getGender());
         userInfo.setAddress(request.getAddress());
         userInfo.setPersonalDescription(request.getDescription());
-        String fileLocation = fileUploadService.uploadFile(request.getAvatar(), SecurityUtils.currentLogin().getEmail());
-        userInfo.setAvatar(fileLocation);
+//        String fileLocation = fileUploadService.uploadFile(request.getAvatar(), SecurityUtils.currentLogin().getEmail());
+//        userInfo.setAvatar(fileLocation);
         userInfoService.saveUser(userInfo);
 
         return ResponseEntity.ok(MessageResponse.builder()
