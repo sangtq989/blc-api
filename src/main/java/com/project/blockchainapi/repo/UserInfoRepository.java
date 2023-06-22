@@ -34,6 +34,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
             " FROM users_info ui" +
             " JOIN metadata m ON ui.id = m.user_id" +
             " WHERE ui.block_chain_address like '0x%'" +
+            "  AND ui.role = 'USER'" +
             "  AND m.field_value like CONCAT('%',:keyword,'%')" +
             " GROUP BY ui.id LIMIT 30", nativeQuery = true)
     List<UserDashboardProjection> getUsersForExpertDashboard(String keyword);
