@@ -24,7 +24,9 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
             "  (SELECT m2.field_value" +
             "   FROM metadata m2" +
             "   WHERE m2.form_field_key = 'positionName'" +
-            "     AND m2.user_id = ui.id ) AS positionName," +
+            "     AND m2.user_id = ui.id " +
+            "   ORDER BY m2.id DESC " +
+            "   LIMIT 1 ) AS positionName," +
             "  (SELECT m3.field_value" +
             "   FROM metadata m3" +
             "   WHERE m3.form_field_key = 'specialities'" +
